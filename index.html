@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brief de Negocio</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f4ef;
+  --surface: #ffffff;
+  --ink: #1a1714;
+  --ink2: #4a4540;
+  --ink3: #9a948e;
+  --accent: #c8521a;
+  --accent-light: #f0e8e0;
+  --accent2: #2d6a4f;
+  --border: #e2dcd4;
+  --step-bg: #1a1714;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* HERO */
+.hero {
+  background: var(--step-bg);
+  color: #f7f4ef;
+  padding: 64px 40px 56px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-tag {
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+.hero h1 {
+  font-size: clamp(42px, 7vw, 72px);
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 20px;
+  letter-spacing: -1px;
+  font-family: 'Inter', sans-serif;
+}
+.hero h1 .sub {
+  display: block;
+  font-size: clamp(14px, 2vw, 18px);
+  font-weight: 400;
+  color: #b8b0a8;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 10px;
+}
+.hero p {
+  font-size: 15px;
+  color: #b8b0a8;
+  max-width: 520px;
+  line-height: 1.7;
+}
+
+/* PROGRESS */
+.progress-bar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 40px;
+  display: flex;
+  gap: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  overflow-x: auto;
+}
+.progress-step {
+  padding: 16px 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ink3);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.progress-step.active { color: var(--accent); border-bottom-color: var(--accent); }
+.progress-step.done { color: var(--accent2); border-bottom-color: var(--accent2); }
+
+/* FORM CONTAINER */
+.form-container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 48px 40px 80px;
+}
+
+/* SECTION */
+.form-section { display: none; animation: fadeIn 0.3s ease; }
+.form-section.active { display: block; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section-header {
+  margin-bottom: 36px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+.section-num {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.section-header h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  line-height: 1.2;
+  font-family: 'Inter', sans-serif;
+}
+.section-header p { font-size: 14px; color: var(--ink2); }
+
+/* FIELD */
+.field { margin-bottom: 28px; }
+.field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+.field label .required { color: var(--accent); margin-left: 3px; }
+.field .hint { font-size: 11px; color: var(--ink3); margin-bottom: 8px; font-style: italic; }
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--ink);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  -webkit-appearance: none;
+}
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(200,82,26,0.08);
+}
+.field textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+
+/* FIELD ROW */
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+/* CHECKBOX GROUP */
+.check-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 11px 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 13px;
+  font-weight: 500;
+}
+.check-item:hover { border-color: var(--accent); background: var(--accent-light); }
+.check-item input { display: none; }
+.check-item.checked { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+.check-dot {
+  width: 16px; height: 16px;
+  border-radius: 4px;
+  border: 2px solid var(--border);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  font-size: 10px;
+}
+.check-item.checked .check-dot { background: var(--accent); border-color: var(--accent); color: white; }
+
+/* NAV BUTTONS */
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+}
+.btn {
+  padding: 13px 28px;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+.btn-primary { background: var(--ink); color: #f7f4ef; }
+.btn-primary:hover { background: var(--accent); }
+.btn-secondary { background: transparent; color: var(--ink2); border: 1.5px solid var(--border); }
+.btn-secondary:hover { border-color: var(--ink2); color: var(--ink); }
+.btn-generate { background: var(--accent); color: white; padding: 14px 36px; font-size: 14px; }
+.btn-generate:hover { background: #a8431a; }
+
+/* OUTPUT */
+#output-section { display: none; }
+#output-section.active { display: block; }
+
+.output-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 24px;
+}
+.output-tab {
+  padding: 12px 24px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: var(--ink3);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.2s;
+}
+.output-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+.output-box { display: none; }
+.output-box.active { display: block; }
+
+.output-text {
+  background: var(--step-bg);
+  color: #d4cfc9;
+  border-radius: 12px;
+  padding: 28px 32px;
+  font-family: 'Courier New', monospace;
+  font-size: 12.5px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 500px;
+  overflow-y: auto;
+  border: 1px solid #333;
+}
+
+.copy-btn {
+  margin-top: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--ink2);
+  transition: all 0.2s;
+}
+.copy-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+.copy-btn.copied { background: var(--accent2); color: white; border-color: var(--accent2); }
+
+.output-actions { display: flex; gap: 12px; margin-top: 14px; flex-wrap: wrap; }
+
+/* SUCCESS BANNER */
+.success-banner {
+  background: linear-gradient(135deg, #1a1714, #2d2520);
+  color: #f7f4ef;
+  border-radius: 12px;
+  padding: 28px 32px;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.success-icon { font-size: 36px; flex-shrink: 0; }
+.success-text h3 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+.success-text p { font-size: 13px; color: #b8b0a8; }
+
+@media (max-width: 600px) {
+  .hero { padding: 40px 20px; }
+  .form-container { padding: 32px 20px 60px; }
+  .field-row { grid-template-columns: 1fr; }
+  .check-group { grid-template-columns: 1fr; }
+  .progress-bar { padding: 0 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">Datos de tu empresa</div>
+  <h1>Tu Empresa<span class="sub">Resumen de negocio</span></h1>
+  <p>Completá este formulario con la información de tu negocio. Así tengo todo lo que necesito para trabajar en tu proyecto.</p>
+</div>
+
+<div class="progress-bar" id="progressBar">
+  <div class="progress-step active" onclick="goTo(0)">01 · Tu negocio</div>
+  <div class="progress-step" onclick="goTo(1)">02 · Tu producto</div>
+  <div class="progress-step" onclick="goTo(2)">03 · Tus clientes</div>
+  <div class="progress-step" onclick="goTo(3)">04 · Tus herramientas</div>
+  <div class="progress-step" onclick="goTo(4)">05 · Reglas de trabajo</div>
+  <div class="progress-step" onclick="goTo(5)">06 · Contexto extra</div>
+</div>
+
+<div class="form-container">
+
+  <!-- S1: NEGOCIO -->
+  <div class="form-section active" id="section-0">
+    <div class="section-header">
+      <div class="section-num">Sección 01 de 06</div>
+      <h2>Tu negocio</h2>
+      <p>Información básica de tu empresa. Así la IA sabe con quién está trabajando.</p>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Nombre del negocio / proyecto <span class="required">*</span></label>
+        <input type="text" id="biz_nombre" placeholder="Ej: Nomad Studio">
+      </div>
+      <div class="field">
+        <label>Industria / Rubro <span class="required">*</span></label>
+        <input type="text" id="biz_industria" placeholder="Ej: SaaS, E-commerce, Consultoría...">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>¿Qué hace exactamente este negocio? <span class="required">*</span></label>
+      <div class="hint">Describí en 2-3 oraciones. La IA usa esto como base de todo.</div>
+      <textarea id="biz_descripcion" placeholder="Ej: Plataforma de gestión de proyectos para equipos remotos. Permite centralizar tareas, comunicaciones y entregables desde un solo lugar, sin depender de múltiples herramientas."></textarea>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>País / Mercado objetivo</label>
+        <input type="text" id="biz_pais" placeholder="Ej: México, LATAM, global">
+      </div>
+      <div class="field">
+        <label>Moneda principal</label>
+        <input type="text" id="biz_moneda" placeholder="Ej: USD, MXN, BRL">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Idioma de trabajo</label>
+      <div class="hint">¿En qué idioma querés que responda la IA para este proyecto?</div>
+      <input type="text" id="biz_idioma" placeholder="Ej: Español neutro, inglés, portugués...">
+    </div>
+
+    <div class="field">
+      <label>Etapa del negocio</label>
+      <div class="check-group check-etapas">
+        <label class="check-item" onclick="toggleCheck(this, event)">
+          <input type="checkbox" value="idea"> <span class="check-dot"></span> Idea / Pre-lanzamiento
+        </label>
+        <label class="check-item" onclick="toggleCheck(this, event)">
+          <input type="checkbox" value="mvp"> <span class="check-dot"></span> MVP en desarrollo
+        </label>
+        <label class="check-item" onclick="toggleCheck(this, event)">
+          <input type="checkbox" value="lanzado"> <span class="check-dot"></span> Lanzado, primeros clientes
+        </label>
+        <label class="check-item" onclick="toggleCheck(this, event)">
+          <input type="checkbox" value="creciendo"> <span class="check-dot"></span> En crecimiento activo
+        </label>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <div></div>
+      <button class="btn btn-primary" onclick="goTo(1)">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- S2: PRODUCTO -->
+  <div class="form-section" id="section-1">
+    <div class="section-header">
+      <div class="section-num">Sección 02 de 06</div>
+      <h2>Tu producto o servicio</h2>
+      <p>Detalle de lo que vendés o ofrecés.</p>
+    </div>
+
+    <div class="field">
+      <label>¿Qué vendés o construís concretamente? <span class="required">*</span></label>
+      <div class="hint">Listá los productos, planes, módulos o servicios principales.</div>
+      <textarea id="prod_que" placeholder="Ej:&#10;- Plan Free: hasta 3 proyectos, 1 usuario&#10;- Plan Team: proyectos ilimitados, 10 usuarios, integraciones&#10;- Plan Business: todo + SSO, soporte prioritario, API"></textarea>
+    </div>
+
+    <div class="field">
+      <label>¿Qué problema resuelve?</label>
+      <textarea id="prod_problema" placeholder="Ej: Los equipos remotos pierden contexto entre Slack, Notion y el correo. Todo queda disperso y nadie sabe en qué estado está cada entregable."></textarea>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Precio / Modelo de cobro</label>
+        <input type="text" id="prod_precio" placeholder="Ej: Freemium + suscripción $29/mes por equipo">
+      </div>
+      <div class="field">
+        <label>Diferencial clave</label>
+        <input type="text" id="prod_diferencial" placeholder="Ej: Vista de timeline integrada con chat contextual">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>¿Qué NO hace / fuera de scope?</label>
+      <div class="hint">Muy útil para que la IA no sugiera cosas que no corresponden.</div>
+      <textarea id="prod_nohace" rows="3" placeholder="Ej: No es un CRM. No gestiona facturación. No reemplaza herramientas de diseño."></textarea>
+    </div>
+
+    <div class="field">
+      <label>Estado actual del producto</label>
+      <textarea id="prod_estado" rows="3" placeholder="Ej: Auth y dashboard listos. Módulo de tareas en desarrollo. Notificaciones y billing pendientes."></textarea>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn btn-secondary" onclick="goTo(0)">← Anterior</button>
+      <button class="btn btn-primary" onclick="goTo(2)">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- S3: CLIENTES -->
+  <div class="form-section" id="section-2">
+    <div class="section-header">
+      <div class="section-num">Sección 03 de 06</div>
+      <h2>Tus clientes</h2>
+      <p>Quiénes son tus clientes ideales y quiénes usan tu producto día a día.</p>
+    </div>
+
+    <div class="field">
+      <label>¿Quién es tu cliente ideal? <span class="required">*</span></label>
+      <textarea id="cli_perfil" placeholder="Ej: Founders de startups B2B con equipos de 5 a 30 personas, principalmente remotos, que ya usan Notion y Slack pero sienten que no alcanzan."></textarea>
+    </div>
+
+    <div class="field">
+      <label>¿Quiénes son los usuarios del día a día?</label>
+      <div class="hint">Puede ser distinto al cliente que paga.</div>
+      <textarea id="cli_usuario" rows="3" placeholder="Ej: Diseñadores y devs, 25-35 años, desde laptop. Project managers desde desktop con múltiples tableros abiertos."></textarea>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Nivel técnico del cliente</label>
+        <select id="cli_tecnico">
+          <option value="">— Seleccioná —</option>
+          <option value="no-tecnico">No técnico en absoluto</option>
+          <option value="basico">Básico (usa apps, no programa)</option>
+          <option value="intermedio">Intermedio (entiende tecnología)</option>
+          <option value="tecnico">Técnico / Developer</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Canal principal de comunicación</label>
+        <input type="text" id="cli_canal" placeholder="Ej: Slack, email, demo calls por Zoom">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Objeciones frecuentes o miedos del cliente</label>
+      <textarea id="cli_objeciones" rows="3" placeholder="Ej: 'Ya usamos Notion', 'El equipo no va a migrar', 'Es una herramienta más para aprender'"></textarea>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn btn-secondary" onclick="goTo(1)">← Anterior</button>
+      <button class="btn btn-primary" onclick="goTo(3)">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- S4: STACK -->
+  <div class="form-section" id="section-3">
+    <div class="section-header">
+      <div class="section-num">Sección 04 de 06</div>
+      <h2>Tus herramientas</h2>
+      <p>Qué programas y tecnologías usás en tu negocio.</p>
+    </div>
+
+    <div class="field">
+      <label>Frontend</label>
+      <input type="text" id="tech_frontend" placeholder="Ej: Next.js 15, TypeScript, Tailwind CSS, shadcn/ui">
+    </div>
+
+    <div class="field">
+      <label>Backend / Base de datos</label>
+      <input type="text" id="tech_backend" placeholder="Ej: Supabase (PostgreSQL + Auth + Storage + RLS)">
+    </div>
+
+    <div class="field">
+      <label>Infraestructura / Deploy</label>
+      <input type="text" id="tech_deploy" placeholder="Ej: Vercel, deploy automático desde main, sin staging">
+    </div>
+
+    <div class="field">
+      <label>Pagos / Monetización</label>
+      <input type="text" id="tech_pagos" placeholder="Ej: Stripe Subscriptions con webhooks">
+    </div>
+
+    <div class="field">
+      <label>Integraciones externas activas</label>
+      <input type="text" id="tech_integraciones" placeholder="Ej: Resend para emails, Slack API, n8n para automatizaciones">
+    </div>
+
+    <div class="field">
+      <label>Estructura de carpetas o convenciones importantes</label>
+      <div class="hint">Rutas, naming conventions, organización de archivos que la IA debe respetar.</div>
+      <textarea id="tech_estructura" rows="4" placeholder="Ej:&#10;/app/(dashboard)/proyectos/page.tsx&#10;/components/ui/ → solo shadcn&#10;/lib/supabase/ → cliente y tipos&#10;/types/ → interfaces TypeScript globales"></textarea>
+    </div>
+
+    <div class="field">
+      <label>Tablas principales de base de datos</label>
+      <textarea id="tech_tablas" rows="4" placeholder="Ej: users, teams, projects, tasks, comments, notifications — todas con team_id para RLS multi-tenant"></textarea>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn btn-secondary" onclick="goTo(2)">← Anterior</button>
+      <button class="btn btn-primary" onclick="goTo(4)">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- S5: REGLAS -->
+  <div class="form-section" id="section-4">
+    <div class="section-header">
+      <div class="section-num">Sección 05 de 06</div>
+      <h2>Reglas de trabajo</h2>
+      <p>Cómo querés que trabaje la IA con vos. Qué debe y qué no debe hacer.</p>
+    </div>
+
+    <div class="field">
+      <label>¿Qué NUNCA debe hacer la IA en este proyecto?</label>
+      <div class="hint">Cosas que rompieron algo antes, suposiciones incorrectas, cambios no deseados.</div>
+      <textarea id="reg_nunca" placeholder="Ej:&#10;- Nunca crear archivos mock o datos de prueba en producción&#10;- Nunca modificar el schema de DB sin pedirlo explícitamente&#10;- Nunca usar useEffect para data fetching (usamos Server Components)&#10;- Nunca cambiar el diseño visual sin aprobación previa"></textarea>
+    </div>
+
+    <div class="field">
+      <label>¿Cómo preferís recibir el código?</label>
+      <div class="check-group check-pref-code">
+        <label class="check-item" onclick="toggleCheck(this, event)">
+          <input type="checkbox" value="completo"> <span class="check-dot"></span> Archivos completos siempre
+        </label>
+        <label class="check-item" onclick="toggleCheck(this, event)">
+          <input type="checkbox" value="diff"> <span class="check-dot"></span> Solo los cambios (diff)
+        </label>
+        <label class="check-item" onclick="toggleCheck(this, event)">
+          <input type="checkbox" value="pasos"> <span class="check-dot"></span> Paso a paso con explicación
+        </label>
+        <label class="check-item" onclick="toggleCheck(this, event)">
+          <input type="checkbox" value="directo"> <span class="check-dot"></span> Directo al código, sin explicar
+        </label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Flujo de deploy / commits</label>
+      <input type="text" id="reg_deploy" placeholder="Ej: Commit directo a main → deploy automático a Vercel. Sin PR ni staging.">
+    </div>
+
+    <div class="field">
+      <label>Preferencias de estilo de código</label>
+      <textarea id="reg_estilo" rows="3" placeholder="Ej: TypeScript estricto, componentes funcionales, hooks en /hooks, sin any, comentarios en español"></textarea>
+    </div>
+
+    <div class="field">
+      <label>¿Qué debería preguntar antes de hacer cambios grandes?</label>
+      <textarea id="reg_preguntar" rows="3" placeholder="Ej: Cambios en schema de DB, refactors de más de 3 archivos, modificaciones al sistema de autenticación o pagos"></textarea>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn btn-secondary" onclick="goTo(3)">← Anterior</button>
+      <button class="btn btn-primary" onclick="goTo(5)">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- S6: CONTEXTO IA -->
+  <div class="form-section" id="section-5">
+    <div class="section-header">
+      <div class="section-num">Sección 06 de 06</div>
+      <h2>Contexto extra</h2>
+      <p>Detalles adicionales que ayudan a la IA a darte mejores respuestas.</p>
+    </div>
+
+    <div class="field">
+      <label>¿Cuál es la tarea más frecuente que le pedís a la IA?</label>
+      <textarea id="ia_tareas" rows="3" placeholder="Ej: Escribir componentes React, armar migraciones SQL, generar hooks con react-query, revisar lógica de RLS"></textarea>
+    </div>
+
+    <div class="field">
+      <label>Contexto de negocio adicional que la IA debe saber siempre</label>
+      <div class="hint">Cosas específicas de tu mercado o modelo que no son obvias.</div>
+      <textarea id="ia_contexto" placeholder="Ej:&#10;- Los equipos de nuestros clientes operan en múltiples zonas horarias&#10;- La mayoría usa celular para revisar tareas, desktop para crearlas&#10;- Velocidad de carga es crítica: usuarios en conexiones lentas&#10;- El onboarding debe funcionar sin necesidad de un demo con ventas"></textarea>
+    </div>
+
+    <div class="field">
+      <label>Terminología específica del negocio</label>
+      <div class="hint">Jerga del sector o términos que la IA debe entender correctamente.</div>
+      <textarea id="ia_terminos" rows="3" placeholder="Ej: sprint = ciclo de 2 semanas, entregable = artefacto con fecha de cierre, owner = responsable único de la tarea, workspace = cuenta empresa"></textarea>
+    </div>
+
+    <div class="field">
+      <label>Objetivo principal del proyecto en este momento</label>
+      <input type="text" id="ia_objetivo" placeholder="Ej: Terminar el módulo de billing y lanzar el plan pago antes de fin de mes">
+    </div>
+
+    <div class="field">
+      <label>Lo que más te preocupa o querés evitar</label>
+      <textarea id="ia_preocupacion" rows="3" placeholder="Ej: Romper algo en producción, perder datos de usuarios activos, acumular deuda técnica difícil de revertir"></textarea>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn btn-secondary" onclick="goTo(4)">← Anterior</button>
+      <button class="btn btn-generate" onclick="generateOutput()">✦ Crear mi documento</button>
+    </div>
+  </div>
+
+  <!-- OUTPUT -->
+  <div id="output-section">
+    <div class="success-banner">
+      <div class="success-icon">✦</div>
+      <div class="success-text">
+        <h3>¡Tu documento está listo!</h3>
+        <p>Encontrá abajo el resumen de tu proyecto. Guardalo o copiá lo que necesites.</p>
+      </div>
+    </div>
+
+    <div class="output-tabs">
+      <div class="output-tab active" onclick="switchTab('prompt', event)">📋 Resumen</div>
+      <div class="output-tab" onclick="switchTab('claude', event)">📁 Documento</div>
+    </div>
+
+    <div class="output-box active" id="tab-prompt">
+      <div class="output-text" id="output-prompt"></div>
+      <div class="output-actions">
+        <button class="copy-btn" id="copyPromptBtn" onclick="copyOutput('prompt')">⎘ Copiar</button>
+        <button class="copy-btn" onclick="downloadFile('prompt')">↓ Descargar</button>
+      </div>
+    </div>
+
+    <div class="output-box" id="tab-claude">
+      <div class="output-text" id="output-claude"></div>
+      <div class="output-actions">
+        <button class="copy-btn" id="copyClaudeBtn" onclick="copyOutput('claude')">⎘ Copiar</button>
+        <button class="copy-btn" onclick="downloadFile('claude')">↓ Descargar</button>
+      </div>
+    </div>
+
+    <div style="margin-top:28px; padding-top:24px; border-top:1px solid var(--border);">
+      <button class="btn btn-secondary" onclick="goTo(5)">← Volver a editar</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let currentSection = 0;
+
+function goTo(index) {
+  document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('output-section').classList.remove('active');
+  const steps = document.querySelectorAll('.progress-step');
+  steps.forEach((s, i) => {
+    s.classList.remove('active', 'done');
+    if (i < index) s.classList.add('done');
+    if (i === index) s.classList.add('active');
+  });
+  const section = document.getElementById('section-' + index);
+  if (section) { section.classList.add('active'); currentSection = index; }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleCheck(el, event) { 
+  event.preventDefault();
+  const input = el.querySelector('input');
+  if (input) {
+    input.checked = !input.checked;
+  }
+  el.classList.toggle('checked'); 
+}
+
+function val(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+
+function getCheckedValues(groupClass) {
+  const checks = document.querySelectorAll('.' + groupClass + ' input[type="checkbox"]:checked');
+  return Array.from(checks).map(c => c.parentElement.textContent.trim());
+}
+
+function generateOutput() {
+  // Obtener checkboxes marcados
+  const etapasChecked = getCheckedValues('check-etapas');
+  const prefCodeChecked = getCheckedValues('check-pref-code');
+  
+  const d = {
+    nombre:           val('biz_nombre')       || '[Nombre del negocio]',
+    industria:        val('biz_industria')     || '[Industria]',
+    descripcion:      val('biz_descripcion')   || '[Descripción]',
+    pais:             val('biz_pais')          || '[País]',
+    moneda:           val('biz_moneda')        || '[Moneda]',
+    idioma:           val('biz_idioma')        || 'Español',
+    etapas:           etapasChecked.length > 0 ? etapasChecked.join(', ') : '[Sin definir]',
+    prodQue:          val('prod_que')          || '[Productos]',
+    prodProblema:     val('prod_problema')     || '[Problema]',
+    prodPrecio:       val('prod_precio')       || '[Precio]',
+    prodDiferencial:  val('prod_diferencial')  || '[Diferencial]',
+    prodNoHace:       val('prod_nohace')       || '[Sin definir]',
+    prodEstado:       val('prod_estado')       || '[Sin definir]',
+    cliPerfil:        val('cli_perfil')        || '[Perfil]',
+    cliUsuario:       val('cli_usuario')       || '[Usuario]',
+    cliTecnico:       val('cli_tecnico')       || '[Nivel técnico]',
+    cliCanal:         val('cli_canal')         || '[Canal]',
+    cliObjeciones:    val('cli_objeciones')    || '[Sin definir]',
+    techFrontend:     val('tech_frontend')     || '[Frontend]',
+    techBackend:      val('tech_backend')      || '[Backend]',
+    techDeploy:       val('tech_deploy')       || '[Deploy]',
+    techPagos:        val('tech_pagos')        || '[Pagos]',
+    techIntegraciones:val('tech_integraciones')|| '[Integraciones]',
+    techEstructura:   val('tech_estructura')   || '[Estructura]',
+    techTablas:       val('tech_tablas')       || '[Tablas]',
+    regNunca:         val('reg_nunca')         || '[Sin definir]',
+    prefCode:        prefCodeChecked.length > 0 ? prefCodeChecked.join(', ') : '[Sin definir]',
+    regDeploy:        val('reg_deploy')        || '[Sin definir]',
+    regEstilo:        val('reg_estilo')        || '[Sin definir]',
+    regPreguntar:     val('reg_preguntar')     || '[Sin definir]',
+    iaTareas:         val('ia_tareas')         || '[Sin definir]',
+    iaContexto:       val('ia_contexto')       || '[Sin definir]',
+    iaTerminos:       val('ia_terminos')       || '[Sin definir]',
+    iaObjetivo:       val('ia_objetivo')       || '[Sin definir]',
+    iaPreocupacion:   val('ia_preocupacion')   || '[Sin definir]',
+  };
+
+  const today = new Date().toLocaleDateString('es', { day:'2-digit', month:'long', year:'numeric' });
+
+  const promptText =
+`=== CONTEXTO DEL PROYECTO — ${d.nombre.toUpperCase()} ===
+Fecha: ${today}
+
+--- EL NEGOCIO ---
+${d.nombre} — ${d.industria} — ${d.pais}
+${d.descripcion}
+Idioma: ${d.idioma} | Moneda: ${d.moneda}
+Etapa: ${d.etapas}
+
+--- PRODUCTO / SERVICIO ---
+${d.prodQue}
+
+Problema que resuelve: ${d.prodProblema}
+Precio / modelo: ${d.prodPrecio}
+Diferencial: ${d.prodDiferencial}
+
+Fuera de scope: ${d.prodNoHace}
+
+Estado actual: ${d.prodEstado}
+
+--- CLIENTES ---
+Cliente ideal: ${d.cliPerfil}
+Usuario del día a día: ${d.cliUsuario}
+Nivel técnico: ${d.cliTecnico}
+Canal de comunicación: ${d.cliCanal}
+Objeciones frecuentes: ${d.cliObjeciones}
+
+--- STACK TÉCNICO ---
+Frontend: ${d.techFrontend}
+Backend/DB: ${d.techBackend}
+Deploy: ${d.techDeploy}
+Pagos: ${d.techPagos}
+Integraciones: ${d.techIntegraciones}
+
+Estructura: ${d.techEstructura}
+Tablas DB: ${d.techTablas}
+
+--- REGLAS DE TRABAJO ---
+No hacer: ${d.regNunca}
+
+Prefencia de código: ${d.prefCode}
+Deploy: ${d.regDeploy}
+Estilo: ${d.regEstilo}
+Consultar antes de: ${d.regPreguntar}
+
+--- CONTEXTO ADICIONAL ---
+Tareas frecuentes: ${d.iaTareas}
+Contexto de mercado: ${d.iaContexto}
+Terminología: ${d.iaTerminos}
+Objetivo actual: ${d.iaObjetivo}
+Evitar: ${d.iaPreocupacion}`;
+
+  const claudeText =
+`# CONTEXTO DEL PROYECTO — ${d.nombre}
+> Archivo de contexto interno del proyecto.
+> Última actualización: ${today}
+
+## 🏢 El Negocio
+
+**Proyecto:** ${d.nombre}
+**Industria:** ${d.industria}
+**Mercado:** ${d.pais}
+**Moneda:** ${d.moneda}
+**Idioma:** ${d.idioma}
+**Etapa:** ${d.etapas}
+
+### Descripción
+${d.descripcion}
+
+---
+
+## 📦 Producto / Servicio
+
+### ¿Qué ofrecemos?
+${d.prodQue}
+
+### Problema que resuelve
+${d.prodProblema}
+
+### Precio y modelo de negocio
+${d.prodPrecio}
+
+### Diferencial
+${d.prodDiferencial}
+
+### ❌ Fuera de scope
+${d.prodNoHace}
+
+### Estado actual
+${d.prodEstado}
+
+---
+
+## 👥 Clientes y Usuarios
+
+**Cliente ideal:** ${d.cliPerfil}
+
+**Usuario del día a día:** ${d.cliUsuario}
+
+**Nivel técnico:** ${d.cliTecnico}
+
+**Canal principal:** ${d.cliCanal}
+
+**Objeciones frecuentes:** ${d.cliObjeciones}
+
+---
+
+## 🛠️ Stack Técnico
+
+| Capa | Tecnología |
+|------|-----------|
+| Frontend | ${d.techFrontend} |
+| Backend/DB | ${d.techBackend} |
+| Deploy | ${d.techDeploy} |
+| Pagos | ${d.techPagos} |
+| Integraciones | ${d.techIntegraciones} |
+
+### Estructura de archivos
+\`\`\`
+${d.techEstructura}
+\`\`\`
+
+### Tablas principales (DB)
+\`\`\`
+${d.techTablas}
+\`\`\`
+
+---
+
+## ⚠️ Reglas de Trabajo
+
+### 🚫 NUNCA hagas esto
+${d.regNunca}
+
+### ✅ Cómo recibir código
+${d.prefCode}
+
+### ✅ Flujo de deploy
+${d.regDeploy}
+
+### 📝 Estilo de código
+${d.regEstilo}
+
+### ❓ Preguntarme antes de
+${d.regPreguntar}
+
+---
+
+## 📋 Notas del Proyecto
+
+**Tareas más frecuentes:**
+${d.iaTareas}
+
+**Contexto de mercado:**
+${d.iaContexto}
+
+**Terminología del negocio:**
+${d.iaTerminos}
+
+**Objetivo actual:**
+${d.iaObjetivo}
+
+**Lo que más quiero evitar:**
+${d.iaPreocupacion}
+
+---
+*Generado con INTER — Brief de Negocio.*`;
+
+  document.getElementById('output-prompt').textContent = promptText;
+  document.getElementById('output-claude').textContent = claudeText;
+  window._outputPrompt = promptText;
+  window._outputClaude = claudeText;
+
+  document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('output-section').classList.add('active');
+  document.querySelectorAll('.progress-step').forEach(s => { s.classList.remove('active'); s.classList.add('done'); });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function switchTab(tab, e) {
+  document.querySelectorAll('.output-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.output-box').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+}
+
+function copyOutput(type) {
+  const text = type === 'prompt' ? window._outputPrompt : window._outputClaude;
+  const btnId = type === 'prompt' ? 'copyPromptBtn' : 'copyClaudeBtn';
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById(btnId);
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function downloadFile(type) {
+  const text = type === 'prompt' ? window._outputPrompt : window._outputClaude;
+  const filename = type === 'prompt' ? 'resumen-proyecto.txt' : 'contexto-proyecto.md';
+  const blob = new Blob([text], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+}
+</script>
+</body>
+</html>
